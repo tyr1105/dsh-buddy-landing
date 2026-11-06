@@ -1,0 +1,6 @@
+<!-- 中文说明：浏览器标签页使用与页面一致的两片对话标记，表示主人与队友之间持续的沟通。 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <style>:root{--accent:#5b49b3;--accent2:#2f6650;--bg:#f9faf8}</style>
+  <rect x="4" y="3" width="25" height="29" rx="10" fill="var(--accent)" transform="rotate(-8 16 18)"/>
+  <rect x="16" y="12" width="21" height="26" rx="9" fill="var(--accent2)" stroke="var(--bg)" stroke-width="2" transform="rotate(8 26 25)"/>
+</svg>
