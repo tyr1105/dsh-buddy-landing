@@ -1,15 +1,17 @@
 <!--
-  中文说明：DSH Buddy 的产品介绍页（0.2.0 版，2026-11-10 重写）。
+  中文说明：DSH Buddy 的产品介绍页（0.3.0 版，2026-11-17 按 0.3.0 的说法重写）。
+  事实依据只有仓库根目录的 README.md；页面里的每句话都能在 README 里找到出处。
 
   这一版讲的主线：
   - 大标题是主人定的「你的 OPC 专业团队」，下面第一句是「一支看得见、管得住的 AI 团队」。
-  - 看得见：像素办公室里一眼看到每位队友在做什么。
-  - 管得住：谁能自己开工、每天自己最多花多少有上限，要紧的动作先问你。
-  - 交代一句：在项目里新开会话，负责人安排分工，队友互相 @ 着讨论。
+  - 看得见：像素办公室里看得到每位员工在做什么。
+  - 管得住：开工前先有约定，你点「定了」才开工；交回的结果逐条核对；对外和收不回来的动作先问你。
+  - 做事的流程：对总管说一件事，总管给出约定卡，点「定了」才开工，员工执行并逐条核对，交给你验收，出交付回执。
+  - 花多少：预计消耗、交付回执、额度窗口、员工自己开工的上限。
 
-  页面上的三张截图都来自 2026-11-10 的一次真实试用（三位队友用真实模型做一个活动报名页），不是示意图。
+  页面上的图片来自 2026-11-17 的一次真实试用（三位员工做一个活动签到页），不是示意图。
 
-  页面结构：页头 → 首屏（标题、安装入口、办公室）→ 管得住 → 交代一句怎么被接走 → 15 个角色 → 三步开始 → 边界与问答 → 结尾 → 页脚。
+  页面结构：页头 → 首屏（标题、安装入口、办公室）→ 管得住 → 做事的流程 → 花多少 → 记忆与技能 → 15 个角色 → 三步开始 → 边界与问答 → 结尾 → 页脚。
   样式在 assets/landing.css，交互（只有「复制包名」）在 assets/landing.js。
 -->
 <!DOCTYPE html>
@@ -19,13 +21,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f9faf8">
   <title>DSH Buddy：你的 OPC 专业团队</title>
-  <meta name="description" content="DSH Buddy 是 DeepSeek Harness 桌面版插件，给一个人的公司（OPC）：一支看得见、管得住的 AI 团队。谁在忙，像素办公室里一眼看到；谁可以自己开工、一天最多自己花多少，都由你定。">
+  <meta name="description" content="DSH Buddy 是 DeepSeek Harness 桌面版插件，给一个人的公司（OPC）：一支看得见、管得住的 AI 团队。你对总管说一件事，先对齐约定，点「定了」才开工；交回的结果逐条核对之后再交给你验收，每件事花了多少都有记录。">
 
   <!-- 下面这组是给微信、飞书、X 等平台生成分享卡片用的：别人把链接发出去时，能看到标题、一句话和办公室的图 -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="DSH Buddy：你的 OPC 专业团队">
-  <meta property="og:description" content="一支看得见、管得住的 AI 团队。谁在忙，像素办公室里一眼看到；谁可以自己开工、一天最多自己花多少，都由你定。">
-  <meta property="og:image" content="https://tyr1105.github.io/dsh-buddy-landing/assets/office-canvas.png">
+  <meta property="og:description" content="一支看得见、管得住的 AI 团队。你对总管说一件事，先对齐约定，点「定了」才开工；交回的结果逐条核对之后再交给你验收。">
+  <meta property="og:image" content="https://tyr1105.github.io/dsh-buddy-landing/assets/office.png">
   <meta property="og:url" content="https://tyr1105.github.io/dsh-buddy-landing/">
 
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -43,7 +45,8 @@
       <nav class="site-nav" aria-label="页面导航">
         <a href="#office">看得见</a>
         <a href="#control">管得住</a>
-        <a href="#relay">怎么接手</a>
+        <a href="#relay">做事的流程</a>
+        <a href="#cost">花多少</a>
         <a href="#roles">角色</a>
         <a href="#faq">常见问题</a>
       </nav>
@@ -65,7 +68,7 @@
         <div>
           <!-- 主张：和同类不一样的地方，放在大标题下面的第一句 -->
           <p class="hero-claim">一支看得见、管得住的 AI 团队。</p>
-          <p class="hero-sub">在 DSH 里招几位 AI 队友。交代一句，负责人安排分工，队友互相 @ 着讨论。谁在忙、谁在等你，办公室里一眼看到；谁可以自己开工、一天最多自己花多少，都由你定。</p>
+          <p class="hero-sub">你对总管说一件事，总管先和你对齐「约定」，写明怎样算做完和预计消耗；你点「定了」才开工。员工执行，交回的结果逐条核对之后，再交给你验收。谁在忙，办公室里看得到；花了多少，每件事都有记录。</p>
         </div>
 
         <div class="hero-install">
@@ -75,12 +78,12 @@
             <!-- data-copy 里写的就是要复制的文字，脚本会读它 -->
             <button type="button" data-copy="@tyr1105/dsh-buddy">复制包名</button>
           </div>
-          <p class="install-how">DSH → 插件 → 添加插件 → 粘贴包名。重新打开 DSH 后，在左栏顶部切到「队友」。</p>
+          <p class="install-how">DSH → 插件 → 添加插件 → 粘贴包名。完全退出并重新打开 DSH，在左栏顶部的「对话 / 员工」切换里点「员工」。</p>
           <ul class="hero-facts">
             <li>插件免费，MIT 开源</li>
-            <li>用你 DSH 里现成的模型和额度</li>
-            <li>队友的文件和记录存在你自己的电脑上</li>
-            <li>需要 macOS 和 DSH 桌面版 0.2.x</li>
+            <li>使用你 DSH 里现有的模型和额度</li>
+            <li>员工的数据保存在你电脑上的 ~/AgentHub</li>
+            <li>需要 macOS 和 DSH 桌面版 0.2.x（0.2.1 起）</li>
           </ul>
         </div>
       </div>
@@ -89,105 +92,195 @@
       <div class="office-stage" id="office">
         <div class="office-head">
           <h2>看得见：插件里的办公室</h2>
-          <p>队友在做什么，小人就在做什么。点一位，能看到它今天每段时间做了什么；整间办公室还能倒回今天的任意时刻。</p>
+          <p>员工在做什么，小人就显示什么：工作、排队、盯守、待确认、受阻、休息。点一位员工，右侧列出他今天每段时间在做什么；整间办公室可以倒回到今天的任意时刻。</p>
         </div>
 
         <figure class="office-shot">
-          <img src="assets/office-canvas.png" width="1116" height="628"
-               alt="DSH Buddy 的像素办公室截图：三位 AI 队友坐在工位上，头顶的牌子写着盯守、盯守、工作，其中两位桌边有橙色数字；下面一排是三个空工位；墙上有挂钟和日历，右边是会议室，角落里趴着一只猫。">
+          <img src="assets/office.png" width="1440" height="900"
+               alt="DSH Buddy 的办公室：像素风格的办公室，三位员工坐在工位上，顶部有时间轴，右上角显示额度充足">
           <!-- 圆点位置用百分比：left 是离图片左边多远，top 是离上边多远，图片缩放时圆点跟着走 -->
-          <span class="pin" style="left:35.4%;top:41.9%" aria-hidden="true">1</span>
-          <span class="pin" style="left:6.6%;top:41.9%" aria-hidden="true">2</span>
-          <span class="pin" style="left:44.4%;top:45.4%" aria-hidden="true">3</span>
-          <span class="pin" style="left:5.4%;top:71.7%" aria-hidden="true">4</span>
-          <span class="pin" style="left:26.9%;top:8%" aria-hidden="true">5</span>
-          <span class="pin" style="left:82.6%;top:94%" aria-hidden="true">6</span>
+          <span class="pin" style="left:34%;top:57%" aria-hidden="true">1</span>
+          <span class="pin" style="left:48.6%;top:16.7%" aria-hidden="true">2</span>
+          <span class="pin" style="left:70.8%;top:3.7%" aria-hidden="true">3</span>
+          <span class="pin" style="left:27.1%;top:82.8%" aria-hidden="true">4</span>
+          <span class="pin" style="left:24.5%;top:49%" aria-hidden="true">5</span>
+          <span class="pin" style="left:42.4%;top:34.7%" aria-hidden="true">6</span>
         </figure>
 
         <ol class="legend-list">
-          <li><span class="num" aria-hidden="true">1</span><div><b>工作</b><br><span>正在处理手上的事。</span></div></li>
-          <li><span class="num" aria-hidden="true">2</span><div><b>盯守</b><br><span>手上没活，等着变化或等你点名。这时候不花额度。</span></div></li>
-          <li><span class="num" aria-hidden="true">3</span><div><b>桌边的数字</b><br><span>它有几件事在等你处理。</span></div></li>
-          <li><span class="num" aria-hidden="true">4</span><div><b>空工位</b><br><span>办公室一共六个工位，同时在岗最多 6 位。</span></div></li>
-          <li><span class="num" aria-hidden="true">5</span><div><b>挂钟和窗外</b><br><span>走的是真实时间，天色跟着变。</span></div></li>
-          <li><span class="num" aria-hidden="true">6</span><div><b>角落的猫</b><br><span>不归任何人管。</span></div></li>
+          <li><span class="num" aria-hidden="true">1</span><div><b>工位上方的牌子</b><br><span>写明这位员工现在的状态。</span></div></li>
+          <li><span class="num" aria-hidden="true">2</span><div><b>顶部的时间轴</b><br><span>拖动它，整间办公室倒回到今天的任意时刻。</span></div></li>
+          <li><span class="num" aria-hidden="true">3</span><div><b>顶栏的额度行</b><br><span>本额度窗口里员工已用的回合和 token。</span></div></li>
+          <li><span class="num" aria-hidden="true">4</span><div><b>空工位</b><br><span>办公室一共六个工位，在册最多 6 位（含总管）。</span></div></li>
+          <li><span class="num" aria-hidden="true">5</span><div><b>门口</b><br><span>显示等你处理的待办件数。</span></div></li>
+          <li><span class="num" aria-hidden="true">6</span><div><b>挂钟下方的额度窗口</b><br><span>写明当前额度窗口的重置时间。</span></div></li>
         </ol>
-        <p class="shot-note">截图来自一次真实试用：三位队友正在用真实模型做一个活动报名页。</p>
+        <p class="shot-note">截图数据来自 2026-11-17 的一次真实试用：三位员工做一个活动签到页。</p>
       </div>
     </section>
 
-    <!-- ========== 管得住：左边三件你能定的事，右边是用量页的真实截图 ========== -->
+    <!-- ========== 管得住：左右各两件你要确认的事，下面是约定卡的真实截图 ========== -->
     <section class="section container" id="control" aria-labelledby="control-title">
-      <h2 class="section-title" id="control-title">管得住：谁开工、花多少，都由你定</h2>
-      <p class="section-lead">几位队友一起跑，最怕额度不知不觉用完。队友自己开工的那部分，这里都有开关和上限。</p>
+      <h2 class="section-title" id="control-title">管得住：先约定，再核对，对外要批准</h2>
+      <p class="section-lead">开工、交付和对外动作，各有一次要你确认的环节。</p>
 
       <div class="control">
         <div class="reasons">
           <div>
-            <h3>不点名，不开工</h3>
-            <p>每位队友有一档自主节奏：听吩咐、提建议、主动做、全力推进。现成的角色大多默认「听吩咐」，你不点名，它不动，也不花额度。</p>
+            <h3>开工之前，先有约定</h3>
+            <p>需要你拿主意的事，总管先给出约定卡：一句话复述、草图、待你定的事项（每项附建议）、总管已定的事项、这次做与不做、怎样算做完、预计消耗。你点「定了」之前不开工；之后要改，总管出新的一版请你确认。</p>
           </div>
           <div>
-            <h3>花多少，有上限</h3>
-            <p>队友每天最多自己开工几次、用多少 token，设置里能改，用了多少有一张表。讨论也封顶：你每说一句，队友最多接着说 8 次，最后一次留给负责人收尾。它们不会背着你聊一下午。</p>
-          </div>
-          <div>
-            <h3>要紧的动作，先问你</h3>
-            <p>往外发东西、改自己文件夹以外的文件、运行没见过的命令，都要你点批准。一次批准只管这一个动作。提问和审批集中放在「待你处理」。</p>
+            <h3>交付之前，逐条核对</h3>
+            <p>一件事交给一位员工执行。交回时每条「怎样算做完」都附证据，由评审员逐条核对，最多三轮；改动小的事由总管核对。你验收时指出哪条不符，只返工这一条。三轮仍不过时，总管告诉你卡在哪、试过什么，并给出几个办法和建议。</p>
           </div>
         </div>
-
-        <figure class="shot-frame">
-          <img src="assets/daily-usage.png" width="730" height="800"
-               alt="设置里的「模型与用量」截图：每位队友每天最多自己开工 6 次、最多用 250000 token；下面是每日用量表，列出工程师、项目经理、评审员各自的回合数和 token 数，以及全队合计。">
-          <figcaption class="shot-caption">设置里的「模型与用量」。同一次试用里，三位队友各用了多少，一张表看完。</figcaption>
-        </figure>
+        <div class="reasons">
+          <div>
+            <h3>对外和收不回来的动作，先问你</h3>
+            <p>员工在自己的文件夹、共享文件夹和项目文件夹里运行命令、写文件，不逐条请你批准，写入范围由 DSH 的沙箱限制。推送代码、发布上线、发消息、安装软件、向外部网址发送数据这类对外和收不回来的动作，要你批准。审批卡第一行是一句说明，写明费用、能否撤回、批准之后会发生什么；原始命令默认收起。</p>
+          </div>
+          <div>
+            <h3>要你处理的事，集中在一处</h3>
+            <p>需要你确认、验收或批准的事，都集中在「待你处理」，也可以在那里直接写一句要修改的地方。执行中，约定能回答的问题由总管直接答复，不打扰你。</p>
+          </div>
+        </div>
       </div>
-    </section>
-
-    <!-- ========== 一件事怎么被接走：上面四步，下面是项目会话的真实截图 ========== -->
-    <section class="section container" id="relay" aria-labelledby="relay-title">
-      <h2 class="section-title" id="relay-title">交代一句，后面是这样接上的</h2>
-      <p class="section-lead">项目里一条会话聊一件事。你对负责人说话，剩下的在同一条会话里发生。</p>
-
-      <!-- 这四步是真的先后顺序，所以用了编号（编号由 CSS 自动生成） -->
-      <ol class="relay-steps">
-        <li><b>新开会话，说要做什么</b><span>不用拆任务，不用指定谁来做。</span></li>
-        <li><b>负责人接下，点名分工</b><span>它知道项目里有谁、各自擅长什么。</span></li>
-        <li><b>队友互相 @，你随时插话</b><span>谁被点名谁接着说，所有人看的是同一条会话。</span></li>
-        <li><b>要你定的事，单独来找你</b><span>提问和审批会变成卡片，集中放在「待你处理」。</span></li>
-      </ol>
 
       <figure class="shot-frame wide">
         <!-- 手机上屏幕窄，这张图可以左右滑着看，字不会缩得看不清 -->
         <div class="shot-scroll">
-          <img src="assets/project-session.png" width="1440" height="900"
-               alt="项目会话的截图：主人说「下周三要上线一个活动报名页，帮我安排一下」，项目经理回复了倒排的四步安排并 @ 工程师开工，接着发来一张提问卡「报名页怎么上线」，带三个选项和默认处理时间；下方显示「工程师 正在回复」。">
+          <img src="assets/agreement-card.png" width="1440" height="900"
+               alt="总管对话里的一张约定卡，列出已定的三项、这次做与不做的内容、四条验收标准和预计消耗">
         </div>
-        <figcaption class="shot-caption">一次真实试用的截图：说了一句，负责人排好了四步、@ 工程师开工，并发来一张提问卡。</figcaption>
+        <figcaption class="shot-caption">约定卡写明已定的事、怎样算做完和预计消耗，你点「定了」之后才开工。</figcaption>
       </figure>
+    </section>
+
+    <!-- ========== 做事的流程：上面四步，下面是主题页和交付回执的真实截图 ========== -->
+    <section class="section container" id="relay" aria-labelledby="relay-title">
+      <h2 class="section-title" id="relay-title">一件事从交代到验收</h2>
+      <p class="section-lead">每件事有自己的主题页，写明约定、进度、在等谁和消耗。总管右侧栏的「在办的事」列出每件事的状态、在等谁、交付时间和已用回合。</p>
+
+      <!-- 这四步是真的先后顺序，所以用了编号（编号由 CSS 自动生成） -->
+      <ol class="relay-steps">
+        <li><b>对总管说一件事</b><span>在总管的对话里写下要做的事。一步能答或需求明确的小事，总管直接安排。</span></li>
+        <li><b>看约定卡，点「定了」</b><span>点「定了」之前不会开工。要改哪里，直接在输入框里写，总管出新的一版。</span></li>
+        <li><b>员工执行，逐条核对</b><span>交回时每条「怎样算做完」都附证据，评审员逐条核对。</span></li>
+        <li><b>交给你验收，出交付回执</b><span>没有问题点「验收通过」；哪条不符，只返工这一条。</span></li>
+      </ol>
+
+      <figure class="shot-frame wide">
+        <div class="shot-scroll">
+          <img src="assets/job-topic.png" width="1440" height="900"
+               alt="「活动签到页」主题页，顶部是约定和四段进度条，状态为已完成，下方一行写着已用 5 回合、1.15M token">
+        </div>
+        <figcaption class="shot-caption">每件事有自己的主题页，写明进度、已用回合和 token。</figcaption>
+      </figure>
+
+      <figure class="shot-frame wide">
+        <div class="shot-scroll">
+          <img src="assets/delivery-receipt.png" width="1440" height="900"
+               alt="「活动签到页」主题页下部，上方是已验收的交付卡，中间是交付回执表，其中消耗一行写着 5 回合、约 1.15M token，下方是复盘条">
+        </div>
+        <figcaption class="shot-caption">事情做完后，回执列出耗时、需要你处理的次数、核对结果和消耗。</figcaption>
+      </figure>
+    </section>
+
+    <!-- ========== 花多少：左右各两件事，下面是设置页用量表的真实截图 ========== -->
+    <section class="section container" id="cost" aria-labelledby="cost-title">
+      <h2 class="section-title" id="cost-title">花多少，每件事都有记录</h2>
+      <p class="section-lead">预计、已用和给自己留出的额度，在约定、主题页、顶栏和设置里都能看到。</p>
+
+      <div class="control">
+        <div class="reasons">
+          <div>
+            <h3>开工前有预计消耗</h3>
+            <p>约定里写明预计的总回合数、按步骤拆分和 token 区间，返工预留算在内。将要超出预计时先问你一次（追加回合、缩小范围或暂停），你没有决定时不会自行超出。</p>
+          </div>
+          <div>
+            <h3>做完有交付回执</h3>
+            <p>回执写明实际用了多少回合和 token，你发起的回合另计。验收之后的复盘回合不计入这件事的回执，计在设置页用量表的「复盘、学习与整理」一行。</p>
+          </div>
+        </div>
+        <div class="reasons">
+          <div>
+            <h3>给自己留出额度</h3>
+            <p>每个 5 小时的额度窗口，默认给你自己留出三成，员工不使用这一部分；比例可以在设置里改。顶栏写出本额度窗口里员工已用的回合和 token，这是按额度窗口统计的估算，可能与各件事回执的合计不一致。</p>
+          </div>
+          <div>
+            <h3>员工自己开工有上限</h3>
+            <p>员工没人交代、自己开工的工作，每位每天默认最多 2 回合。设置页列出最近 7 天按事统计的用量。</p>
+          </div>
+        </div>
+      </div>
+
+      <figure class="shot-frame wide">
+        <div class="shot-scroll">
+          <img src="assets/usage.png" width="1440" height="900"
+               alt="设置页的模型与额度分区，上方是三项设置，下方是按事列出回合与 token 的用量表">
+        </div>
+        <figcaption class="shot-caption">设置里可以调整给自己留出的额度，并按事查看最近 7 天的用量。</figcaption>
+      </figure>
+    </section>
+
+    <!-- ========== 记忆与技能：左右各两件事，没有配图 ========== -->
+    <section class="section container" id="memory" aria-labelledby="memory-title">
+      <h2 class="section-title" id="memory-title">说过的话不用说第二遍</h2>
+      <p class="section-lead">你的要求和做过的事，会被记下来，并且可以查看、更正和撤销。</p>
+
+      <div class="control">
+        <div class="reasons">
+          <div>
+            <h3>已记住的要求</h3>
+            <p>你说一句以后都适用的要求，总管当场回一句「已记住」，写明内容和适用范围，可以撤销。之后对齐时，约定里「我已定的」会引用这条规矩并写明出处。设置页的「关于你的记忆」列出系统记住的全部内容，可以更正或删除。</p>
+          </div>
+          <div>
+            <h3>离开一段时间再回来</h3>
+            <p>离开 8 小时以上再打开时，总管的对话里有一段离开期间的摘要：每件事的变化、共用了多少回合和 token、通知过你几次。</p>
+          </div>
+        </div>
+        <div class="reasons">
+          <div>
+            <h3>员工的技能库</h3>
+            <p>一件事核对退回过、或你指出过不符时，验收之后相关员工各复盘一次，把经过核对的经验写进自己的技能库。技能库每一句都注明出处，保留历史版本，可以回退。</p>
+          </div>
+          <div>
+            <h3>成果放到指定位置</h3>
+            <p>约定里可以写明发布到你电脑上的一个文件夹（第一级限于桌面、文稿、下载等几个文件夹）。发布前单独请你批准。</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ========== 15 个角色：按组排成花名册。名字和一句话介绍与插件里的模板库一致 ========== -->
     <section class="section container" id="roles" aria-labelledby="roles-title">
-      <h2 class="section-title" id="roles-title">15 个现成的角色，挑了就能用</h2>
-      <p class="section-lead">名字、性格、说话方式和技能，加进来之后都能改。第一次用，先选带「推荐」的两位：一个做事，一个挑毛病。</p>
+      <h2 class="section-title" id="roles-title">15 个现成的角色</h2>
+      <p class="section-lead">名字、性格、说话风格、模型和技能，加进来之后都能改。第一次打开时团队里只有总管；总管推荐不超过 3 位员工，你可以改名、换一位或不要某一位。</p>
+
+      <figure class="shot-frame wide">
+        <div class="shot-scroll">
+          <img src="assets/template-picker.png" width="1440" height="900"
+               alt="弹出的模板库窗口，上方是分类按钮，中间是六张角色卡，底部是已选的验收员的设定和添加按钮">
+        </div>
+        <figcaption class="shot-caption">模板库按场景分组，选好后一次添加，名字和设定之后都能改。</figcaption>
+      </figure>
 
       <div class="roster">
         <div class="roster-group">
-          <div><h3>产品研发</h3><p>从想法到交付，每一段都有人管。</p></div>
+          <div><h3>产品研发</h3><p>6 个角色</p></div>
           <ul class="roster-roles">
             <li><b>产品经理</b><span>把想法写成需求和验收标准。</span></li>
-            <li><b>项目经理</b><span>把大事拆开，派给队友，跟到做完。</span></li>
+            <li><b>项目经理</b><span>把大事拆开，派给员工，跟到做完。总管就是用这个模板建的；团队里已有总管时不能再添加。</span></li>
             <li><b>设计师</b><span>出页面原型和设计说明。</span></li>
             <li><b>工程师<span class="pick">推荐</span></b><span>接活、完成，并说明验证方式。</span></li>
-            <li><b>评审员<span class="pick">推荐</span></b><span>专门挑毛病。每条都说清哪里不对。</span></li>
+            <li><b>评审员<span class="pick">推荐</span></b><span>专门挑毛病，每条都说清哪里不对。全队只能有一位。</span></li>
             <li><b>验收员</b><span>交付前按验收项逐条核对。</span></li>
           </ul>
         </div>
 
         <div class="roster-group">
-          <div><h3>推广</h3><p>让更多人看到产品。</p></div>
+          <div><h3>推广</h3><p>2 个角色</p></div>
           <ul class="roster-roles">
             <li><b>SEO 专员</b><span>查关键词，改标题和页面内容。</span></li>
             <li><b>视频策划</b><span>写推广视频的脚本和分镜。</span></li>
@@ -195,31 +288,31 @@
         </div>
 
         <div class="roster-group">
-          <div><h3>值守</h3><p>自己盯着，有事才通知你。</p></div>
+          <div><h3>值守</h3><p>2 个角色</p></div>
           <ul class="roster-roles">
-            <li><b>研究员</b><span>代查资料、盯网页。结论附出处。</span></li>
-            <li><b>巡检员</b><span>盯日志和定时任务，异常时通知。</span></li>
+            <li><b>研究员</b><span>代查资料、盯守网页，结论附出处。</span></li>
+            <li><b>巡检员</b><span>盯守日志与定时任务，异常时通知。</span></li>
           </ul>
         </div>
 
         <div class="roster-group">
-          <div><h3>外脑</h3><p>平时不说话，点名才来。</p></div>
+          <div><h3>外脑</h3><p>3 个角色</p></div>
           <ul class="roster-roles">
-            <li><b>追问者</b><span>连续追问，把含糊的地方问穿。</span></li>
+            <li><b>追问者</b><span>连续追问，把含糊的地方问清楚。</span></li>
             <li><b>鬼点子很多</b><span>专出不按常理的点子。</span></li>
-            <li><b>员工教练</b><span>看队友做得怎么样，给改进建议。</span></li>
+            <li><b>员工教练</b><span>看员工做得怎么样，给改进建议。</span></li>
           </ul>
         </div>
 
         <div class="roster-group">
-          <div><h3>对外</h3><p>往外发之前，都要你批准。</p></div>
+          <div><h3>对外</h3><p>2 个角色</p></div>
           <ul class="roster-roles">
             <li><b>发言人</b><span>写公告、发版说明和对用户的回复。</span></li>
             <li><b>市场专员</b><span>看竞品和用户，定卖点和推广计划。</span></li>
           </ul>
         </div>
       </div>
-      <p class="roster-note">也可以从头配一位自己的队友：名字、执行风格、性格和说话风格、MBTI、自主节奏、模型、岗位技能、员工说明，一页填完。</p>
+      <p class="roster-note">办公室一共六个工位，在册最多 6 位（含总管）。也可以从头配一位自己的员工：名字、执行风格、性格、说话风格、性格（MBTI）、模型、岗位技能、员工说明，一页填完。总管和盯守类员工另有自主节奏可选，其余员工只在总管安排或你点名时工作。</p>
     </section>
 
     <!-- ========== 三步开始：真的有先后顺序，所以用编号 ========== -->
@@ -228,19 +321,19 @@
       <ol class="start-steps">
         <li>
           <h3>装上</h3>
-          <p>在 DSH 的插件页点「添加插件」，粘贴包名。装完重新打开 DSH，在左栏顶部切到「队友」。</p>
+          <p>在 DSH 的插件页点「添加插件」，粘贴包名。完全退出 DSH，再重新打开，在左栏顶部的「对话 / 员工」切换里点「员工」。</p>
           <div class="package-box">
             <code>@tyr1105/dsh-buddy</code>
             <button type="button" data-copy="@tyr1105/dsh-buddy">复制</button>
           </div>
         </li>
         <li>
-          <h3>挑两位队友</h3>
-          <p>点「新建队友」，在模板库里选上工程师和评审员，点添加。每位加进来会先试跑一次，用一点模型额度。</p>
+          <h3>回答总管的三个问题，确认组队卡</h3>
+          <p>总管问：主要想让团队做哪类事、手上有没有已经在做的项目、希望多久被打扰一次。随后给出组队卡，推荐不超过 3 位员工。确认后员工直接在岗，不另外试跑。</p>
         </li>
         <li>
-          <h3>说第一句话</h3>
-          <p>建个项目，把两位拉进来，选一位负责人。点「新开会话」，说要做什么。</p>
+          <h3>对总管说第一件事</h3>
+          <p>在总管的对话里写下要做的事。需要你拿主意的地方，总管先给出约定卡；点「定了」之后才开工。</p>
         </li>
       </ol>
     </section>
@@ -252,38 +345,43 @@
         <div>
           <h3>现在的边界</h3>
           <ul class="limit-list">
-            <li>队友要运行命令时，审批会比较多：没见过的命令每条都要你批准，卡片上显示的是原始命令。</li>
-            <li>DSH 关着或电脑休眠时，团队不工作。回来后会补看这段时间的变化。</li>
-            <li>没有接飞书、微信这类聊天软件，也不能操作浏览器。</li>
-            <li>只支持 macOS 和 DeepSeek Harness 桌面版 0.2.x。</li>
-            <li>审批和沙箱还有已知缺口，先别让队友读来路不明的网页。细节写在 <a href="https://github.com/tyr1105/dsh-buddy#安全边界" target="_blank" rel="noopener">GitHub 的说明</a>里。</li>
+            <li>现在不接聊天软件，不操作浏览器，没有手机端，也没有由你设定的定时任务。需要这些功能时，可以选用 DSH 生态里提供它们的其他插件。</li>
+            <li>DSH 关着或电脑休眠时，团队不工作。</li>
+            <li>只支持 macOS；DSH 版本要 0.2.1 及以上、0.3.0 以下。</li>
+            <li>总管的回复由模型生成，提到某件事的状态时仍可能与实际不符；以主题页的进度行为准。</li>
+            <li>约定卡草图里的圆圈数字由模型标注，可能没有对应到正确的待你定事项。</li>
+            <li>审批和沙箱还有已知缺口：对外动作按程序名识别，改名、起别名或写进脚本里的调用拦不住；读网页不经审批。不要让员工读来路不明的网页，也不要把敏感资料放在他们够得着的地方。细节写在 <a href="https://github.com/tyr1105/dsh-buddy#安全边界" target="_blank" rel="noopener">GitHub 的说明</a>里。</li>
           </ul>
         </div>
 
         <div class="faq">
           <details open>
-            <summary>和 DS Bot、Tobs 这类插件有什么不同？<span class="plus" aria-hidden="true"></span></summary>
-            <p>它们能做的事更多：能接飞书和微信，能操作浏览器，DS Bot 还有独立的桌面版。DSH Buddy 做得少，只把两件事做到底：办公室里一眼看到每位队友在做什么；谁可以自己开工、一天最多自己花多少，都由你定。想让 AI 进聊天软件、替你操作网页，选它们；想要一支小而省、看得见的团队，试试这个。</p>
+            <summary>和同类插件有什么不同？<span class="plus" aria-hidden="true"></span></summary>
+            <p>DSH Buddy 的重心是「一件事从交代到验收」这条路径可见、可控：开工之前有约定，交付之前有核对，花费有预计、有回执，状态看得见。它现在不接聊天软件，不操作浏览器，没有手机端，也没有由你设定的定时任务；需要这些功能时，可以选用 DSH 生态里提供它们的其他插件。</p>
           </details>
           <details>
-            <summary>和我在 DSH 里多开几个会话有什么不同？<span class="plus" aria-hidden="true"></span></summary>
-            <p>多开会话，传话的人是你：把这边的结果贴给那边。在这里，队友有固定的岗位和记忆，互相能直接说话，负责人盯着把事情收尾。</p>
+            <summary>每件事大概花多少？<span class="plus" aria-hidden="true"></span></summary>
+            <p>约定里有预计消耗，做完有交付回执。2026-11-17 的一次真实试用：团队有工程师、设计师、评审员三位员工，用真实模型做一个活动签到页，由工程师执行、评审员核对，中间退回返工一次。到验收为止共 7 个回合、约 132 万 token。交付回执的消耗一行原文：「5 回合，预计 9；约 1.15M token；另有你发起的 2 回合，约 174K token」。验收之后，工程师和评审员各自复盘，另用 5 个回合、约 43 万 token。这部分不计入这件事的回执，计在用量表的「复盘、学习与整理」一行。全程没有出现审批卡。</p>
           </details>
           <details>
-            <summary>会不会一直花额度？<span class="plus" aria-hidden="true"></span></summary>
-            <p>不会。默认「听吩咐」的队友，你不叫它就不动。会自己行动的队友，每人每天有回合和 token 上限，全队每 5 小时也有上限，到了就停下等重置。要有数的是：队友每干一轮活大约用十几万 token，三个人讨论一件事就是几十万。</p>
+            <summary>需要我一直盯着吗？<span class="plus" aria-hidden="true"></span></summary>
+            <p>需要你确认、验收或批准的事，都集中在「待你处理」。执行中，约定能回答的问题由总管直接答复，不打扰你。离开 8 小时以上再打开时，总管的对话里有一段离开期间的摘要。</p>
           </details>
           <details>
             <summary>数据会外传吗？<span class="plus" aria-hidden="true"></span></summary>
-            <p>队友的文件和记录存在你电脑上的 ~/AgentHub。调用模型、抓网页时，相关内容会发给模型服务和对应的网站，这一点和你平时用 DSH 一样。</p>
+            <p>员工的数据保存在你电脑上的 ~/AgentHub，卸载插件不会删除。员工使用你 DSH 里现有的模型和额度。向外部网址发送数据要你批准；读网页不经审批，内容有可能被放进网址带出去，所以不要让员工读来路不明的网页。</p>
+          </details>
+          <details>
+            <summary>从上一版升级要做什么？<span class="plus" aria-hidden="true"></span></summary>
+            <p>更新插件后，完全退出并重新打开 DSH，新版本才会生效。数据仍在 ~/AgentHub，升级时自动迁移，不会丢失。</p>
           </details>
           <details>
             <summary>OPC 是什么？<span class="plus" aria-hidden="true"></span></summary>
-            <p>一人公司（One Person Company）：一个人拿主意，活交给 AI 队友去推。</p>
+            <p>一人公司（One Person Company），即只有一个人的公司。DSH Buddy 给这样的使用者用。</p>
           </details>
           <details>
             <summary>不想用了怎么办？<span class="plus" aria-hidden="true"></span></summary>
-            <p>在 DSH 里移除这个插件就行，命令写在 GitHub 的说明里。队友的数据留在 ~/AgentHub，不会被删。</p>
+            <p>在 DSH 里移除这个插件即可，命令写在 GitHub 的说明里。员工的数据保存在 ~/AgentHub，卸载不会删除。</p>
           </details>
         </div>
       </div>
@@ -294,8 +392,8 @@
       <div class="faces" aria-hidden="true">
         <span class="face apricot"><i></i></span><span class="face"><i></i></span><span class="face mint"><i></i></span>
       </div>
-      <h2 id="closing-title">先招两位，说第一句话试试</h2>
-      <p>一个做事，一个挑毛病。合不合手，一个小项目就看得出来。</p>
+      <h2 id="closing-title">装好之后，对总管说第一件事</h2>
+      <p>总管先和你对齐约定，你点「定了」才开工。</p>
       <div class="actions">
         <button class="button button-solid" type="button" data-copy="@tyr1105/dsh-buddy">复制包名</button>
         <a class="button button-line" href="https://github.com/tyr1105/dsh-buddy" target="_blank" rel="noopener">去 GitHub 看说明</a>
